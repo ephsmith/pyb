@@ -17,6 +17,8 @@ MIN_MOVIES = 4
 MIN_YEAR = 1960
 
 Movie = namedtuple('Movie', 'title year score')
+
+# field conversion
 fields = ['movie_title', 'title_year', 'imdb_score']
 conv = [str, int, float]
 NAME = 'director_name'
