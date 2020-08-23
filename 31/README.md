@@ -1,4 +1,4 @@
-## [Bite 300. 🥳 PTO Calculator](https://codechalleng.es/bites/300/)
+## [Bite 31. Matrix multiplication / @ operator](https://codechalleng.es/bites/31/)
 
 Good luck and please share you code in the Bite forums upon completion.
 
