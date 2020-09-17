@@ -39,4 +39,5 @@ def get_passing_code(json_data=json_data):
     the output file names should be Bite124.py. Remove any/all spaces
     from the file name.  Write to /tmp (tmp variable).
     """
-    map(_write_code, json_data['bites'])
+    for bite in json_data['bites']:
+        _write_code(bite)
