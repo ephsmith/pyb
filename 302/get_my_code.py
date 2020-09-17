@@ -26,7 +26,7 @@ def _make_filename(bite):
 
 
 def _write_code(bite):
-    outfile = tmp / _make_filename(bite['bite'])
+    outfile = tmp / _make_filename(bite)
     outfile.write_text(bite['passing_code'])
 
 
