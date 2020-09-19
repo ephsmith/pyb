@@ -8,4 +8,7 @@ def get_len_help_text(builtin: BuiltinFunctionType) -> int:
        You need to redirect stdout from the help builtin.
        If the the object passed in is not a builtin, raise a ValueError.
     """
-    pass
+    f = StringIO()
+    with redirect_stdout(f):
+        help(builtin)
+    return len(f.getvalue())
