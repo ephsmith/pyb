@@ -31,4 +31,4 @@ def _(arg):
 
 @count_down.register(dict)
 def _(arg):
-    count_down(list(dict.keys()))
+    count_down(list(arg.keys()))
