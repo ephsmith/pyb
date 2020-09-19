@@ -15,9 +15,10 @@ def login_required(func):
                 return "please login"
         else:
             return "please create an account"
+    return wrapper
 
 
 @login_required
 def welcome(user):
     '''Return a welcome message if logged in'''
-    return "Welcome back {user}"
+    return "welcome back {user}"
