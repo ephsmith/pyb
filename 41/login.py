@@ -8,8 +8,8 @@ def login_required(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
         user, *_ = args
-        if user.lower in known_users:
-            if user.lower in loggedin_users:
+        if user.lower() in known_users:
+            if user.lower() in loggedin_users:
                 return func(*args, **kwargs)
             else:
                 return "please login"
@@ -21,4 +21,4 @@ def login_required(func):
 @login_required
 def welcome(user):
     '''Return a welcome message if logged in'''
-    return "welcome back {user}"
+    return f"welcome back {user}"
