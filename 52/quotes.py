@@ -2,6 +2,7 @@ from flask import Flask, jsonify, abort, request, make_response
 import json
 import sys
 
+
 app = Flask(__name__)
 
 quotes = [
@@ -28,9 +29,12 @@ def _get_quote(qid):
     return [quote for quote in quotes if quote['id'] == qid][0]
 
 
-def _quote_exists(existing_quote):
+def _quote_exists(qid=None, quote=None):
     """Recommended helper"""
-    return any(map(lambda x: x['id'] == existing_quote, quotes))
+    if qid:
+        return any(map(lambda x: x['id'] == qid, quotes))
+    elif quote:
+        return any(map(lambda x: x['quote'] == quote['quote'], quotes))
 
 
 @app.route('/api/quotes', methods=['GET'])
@@ -40,7 +44,7 @@ def get_quotes():
 
 @app.route('/api/quotes/<int:qid>', methods=['GET'])
 def get_quote(qid):
-    if _quote_exists(qid):
+    if _quote_exists(qid=qid):
         return make_response(jsonify({'quotes': [_get_quote(qid)]}))
     else:
         return '', 404
@@ -48,29 +52,36 @@ def get_quote(qid):
 
 @app.route('/api/quotes', methods=['POST'])
 def create_quote():
-    next_id = max(quotes, key=lambda x: x['id'])['id'] + 1
+    next_id = max(quotes, key=lambda x: x['id'])['id'] + 1 if quotes else 1
     quote = json.loads(request.get_data())
-    print(quote, file=sys.stderr, flush=True)
+    if _quote_exists(quote=quote):
+        return '', 400
+
     if all([field in quote for field in ['quote', 'movie']]):
-        quotes.append(quote.update(('id', next_id)))
-        return '', 201
+        quote.update({'id': next_id})
+        quotes.append(quote)
+        return make_response(jsonify({'quote': quote}), 201)
     else:
-        make_response('nope', 400)
+        return '', 400
 
 
 @app.route('/api/quotes/<int:qid>', methods=['PUT'])
 def update_quote(qid):
-    if _quote_exists(qid):
-        _get_quote(qid).update(json.loads(request.get_data()))
-        return '', 200
+    new_quote = json.loads(request.get_data())
+    if new_quote == {}:
+        return '', 400
+    if _quote_exists(qid=qid):
+        quote = _get_quote(qid)
+        quote.update(new_quote)
+        return make_response(jsonify({'quote': quote}), 200)
     else:
         return '', 404
 
 
 @app.route('/api/quotes/<int:qid>', methods=['DELETE'])
 def delete_quote(qid):
-    if _quote_exists(qid):
+    if _quote_exists(qid=qid):
         quotes.remove(_get_quote(qid))
-        return 204
+        return '', 204
     else:
         return '', 404
