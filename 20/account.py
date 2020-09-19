@@ -16,7 +16,7 @@ class Account:
     def __enter__(self):
         return self
 
-    def __exit__(self):
+    def __exit__(self, *_):
         while self.balance < 0:
             self._transactions.pop()
         return self
