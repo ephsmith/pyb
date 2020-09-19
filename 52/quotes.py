@@ -1,7 +1,5 @@
 from flask import Flask, jsonify, abort, request, make_response
 import json
-import sys
-
 
 app = Flask(__name__)
 
