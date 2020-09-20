@@ -1,4 +1,5 @@
 from functools import wraps
+import sys
 
 MAX_RETRIES = 3
 
@@ -18,17 +19,19 @@ def retry(func):
     # ...
     # and use wraps to preserve docstring
     #
-    retries = 0
-
     @wraps(func)
     def wrapper(*args, **kwargs):
-        nonlocal retries
-        if retries > MAX_RETRIES:
-            raise MaxRetriesException
-        else:
+        retries = 0
+        while retries < MAX_RETRIES:
             try:
-                retries += 1
-                return func(*args, **kwargs)
+                vals = func(*args, **kwargs)
+                break
             except Exception as e:
+                retries += 1
                 print(e)
+        else:
+            raise MaxRetriesException
+
+        return vals
+
     return wrapper
