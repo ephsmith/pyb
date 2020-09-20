@@ -21,8 +21,13 @@ def group_cars_by_manufacturer(cars):
     """Iterate though the list of (manufacturer, model) tuples
        of the cars list defined above and generate the output as described
        in the Bite description (see the tests for the full output).
-       
+
        No return here, just print to the console. We use pytest > capfd to
        validate your output :)
     """
-    pass
+    groups = groupby(sorted(cars, key=lambda x: x[0]), key=lambda x: x[0])
+    for mfgr, models in groups:
+        print(f'{mfgr.upper()}')
+        for model in models:
+            print(f'- {model[1]}')
+        print()
