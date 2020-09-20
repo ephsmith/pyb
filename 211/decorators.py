@@ -27,6 +27,8 @@ def retry(func):
             raise MaxRetriesException
         else:
             try:
+                retries += 1
                 return func(*args, **kwargs)
             except Exception as e:
                 print(e)
+    return wrapper
