@@ -22,7 +22,9 @@ def strip_range(start, end):
         @wraps(fun)
         def wrapper_replace(*args, **kwargs):
             output = list(fun(*args, **kwargs))
-            for k in range(start, end):
+            this_end = end if end < len(output) else len(output)
+
+            for k in range(start, this_end):
                 output[k] = '.'
             return ''.join(output)
         return wrapper_replace
