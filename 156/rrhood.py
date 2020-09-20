@@ -1,8 +1,5 @@
-CHARACTERS = ['Red Riding Hood',
-              # we're omitting 'mother' here for simplicity
-              # (= substring grandmother)
-              ('Grandmother', 'Grandma', 'Granny'),
-              'wolf', 'woodsman']
+import sys
+from collections import defaultdict
 
 text = """
 Once upon a time, there was a little girl who lived in a village near the forest.  Whenever she went out, the little girl wore a red riding cloak, so everyone in the village called her Little Red Riding Hood.
@@ -43,6 +40,12 @@ The woodsman knocked out the wolf and carried him deep into the forest where he 
 Little Red Riding Hood and her Grandmother had a nice lunch and a long chat.
 """
 
+CHARACTERS = ['Red Riding Hood',
+              # we're omitting 'mother' here for simplicity
+              # (= substring grandmother)
+              ('Grandmother', 'Grandma', 'Granny'),
+              'wolf', 'woodsman']
+
 
 def make_character_index(text=text, characters=CHARACTERS):
     """Return a dict with keys are characters (lowercased) and values
@@ -52,4 +55,15 @@ def make_character_index(text=text, characters=CHARACTERS):
        - e.g. ('Grandmother', 'Grandma', 'Granny') -
        then return the former as key.
     """
-    pass
+    index = defaultdict(list)
+
+    for n, line in enumerate(text.lower().splitlines()):
+        for char in characters:
+            print(f'{char=}', file=sys.stderr, flush=True)
+            if isinstance(char, tuple):
+                if any(map(lambda c: c.lower() in line, char)):
+                    index[char[0]].append(n)
+            else:
+                if char.lower() in line:
+                    index[char].append(n)
+    return index
