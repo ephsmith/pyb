@@ -6,7 +6,6 @@ from functools import wraps
 def cached_property(func):
     """decorator used to cache expensive object attribute lookup"""
     cache = None
-
     @wraps(func)
     def wrapper(*args, **kwargs):
         nonlocal cache
@@ -38,6 +37,11 @@ class Planet:
                       f'{self.SOLAR_MASS_UNITS}')
         return self._mass
 
+    def __setattr__(self, var, val):
+        if var == 'mass':
+            raise AttributeError
+        else:
+            super(Planet, self).__setattr__(var, val)
     # @mass.setter
     # def mass(self, value):
     #     self._mass = value
