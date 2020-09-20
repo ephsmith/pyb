@@ -41,3 +41,9 @@ def get_us_bank_holidays(content=content):
     """Receive scraped html output, make a BS object, parse the bank
        holiday table (css class = list-table), and return a dict of
        keys -> months and values -> list of bank holidays"""
+    table = _get_table()
+
+    for row in table:
+        holidays[f'{row[1].month:02d}'].append(row[3].strip())
+
+    return holidays
