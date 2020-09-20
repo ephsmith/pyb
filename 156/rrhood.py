@@ -1,4 +1,3 @@
-import sys
 from collections import defaultdict
 
 text = """
@@ -59,11 +58,10 @@ def make_character_index(text=text, characters=CHARACTERS):
 
     for n, line in enumerate(text.lower().splitlines()):
         for char in characters:
-            print(f'{char=}', file=sys.stderr, flush=True)
             if isinstance(char, tuple):
                 if any(map(lambda c: c.lower() in line, char)):
-                    index[char[0]].append(n)
+                    index[char[0].lower()].append(n)
             else:
                 if char.lower() in line:
-                    index[char].append(n)
+                    index[char.lower()].append(n)
     return index
