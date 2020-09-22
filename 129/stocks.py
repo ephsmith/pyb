@@ -42,7 +42,7 @@ def get_industry_cap(industry):
 def get_stock_symbol_with_highest_cap():
     """Return the stock symbol (e.g. PACD) with the highest cap, use
        the _cap_str_to_mln_float to parse the cap values"""
-    pass
+    return max(data, key=lambda x: _cap_str_to_mln_float(x['cap']))['symbol']
 
 
 def get_sectors_with_max_and_min_stocks():
