@@ -27,11 +27,16 @@ def _cap_str_to_mln_float(cap):
 
     return value
 
+
 def get_industry_cap(industry):
     """Return the sum of all cap values for given industry, use
        the _cap_str_to_mln_float to parse the cap values,
        return a float with 2 digit precision"""
-    pass
+    total = sum(map(lambda x: _cap_str_to_mln_float(x['cap']),
+                   filter(lambda x: x['industry'] == industry, data)
+                   )
+               )
+    return round(total, 2)
 
 
 def get_stock_symbol_with_highest_cap():
