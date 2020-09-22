@@ -1,4 +1,3 @@
-import sys
 import os
 import re
 import urllib.request
@@ -21,11 +20,7 @@ def _parse_book_line(line):
     out_dict = dict()
     date = re.findall(r'^([0-9]{2}-[0-9]{2})', line)[0]
     out_dict['date'] = datetime.strptime(date, '%m-%d')
-    try:
-        out_dict['title'] = re.findall(r'DEBUG.*- (.*)', line)[0]
-    except IndexError:
-        raise IndexError(f'error: {line=}')
-
+    out_dict['title'] = re.findall(r'DEBUG.*- (.*)', line)[0]
     return out_dict
 
 
