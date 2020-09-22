@@ -1,4 +1,5 @@
 import requests
+from collections import Counter
 
 STOCK_DATA = 'https://bites-data.s3.us-east-2.amazonaws.com/stocks.json'
 
@@ -48,4 +49,10 @@ def get_stock_symbol_with_highest_cap():
 def get_sectors_with_max_and_min_stocks():
     """Return a tuple of the sectors with most and least stocks,
        discard n/a"""
-    pass
+    min_max = Counter(map(lambda x: x['sector'],
+                          filter(lambda x: x['sector'] != 'n/a', data)
+                          )
+                      )
+    most = min_max.most_common(1)[0][0]
+    least = min_max.most_common()[-1][0]
+    return most, least
