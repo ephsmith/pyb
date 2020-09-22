@@ -34,9 +34,10 @@ def get_industry_cap(industry):
        the _cap_str_to_mln_float to parse the cap values,
        return a float with 2 digit precision"""
     total = sum(map(lambda x: _cap_str_to_mln_float(x['cap']),
-                   filter(lambda x: x['industry'] == industry, data)
-                   )
-               )
+                    filter(lambda x: x['industry'] == industry, data)
+                    )
+                )
+
     return round(total, 2)
 
 
