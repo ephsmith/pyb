@@ -25,6 +25,7 @@ def _cap_str_to_mln_float(cap):
         value = float(cap)
         value = value * 1000 if unit == 'B' else value
 
+    return value
 
 def get_industry_cap(industry):
     """Return the sum of all cap values for given industry, use
