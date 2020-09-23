@@ -58,7 +58,10 @@ if DB.stat().st_size == 0:
 def player_with_max_points_per_game():
     """The player with highest average points per game (don't forget to CAST to
        numeric in your SQL query)"""
-    pass
+    return list(cur.execute('''SELECT name from players
+                   where CAST(avg_points as numeric) =
+                   (SELECT max(CAST(avg_points as numeric))
+                   as max_points from players)'''))[0][0]
 
 
 def number_of_players_from_duke():
