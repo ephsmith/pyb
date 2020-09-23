@@ -23,7 +23,6 @@ def _create_defeat_mapping():
 
     for row in rows:
         defeat_map[row['Attacker']] = [k for k, v in row.items() if v == 'win']
-
     return defeat_map
 
 
