@@ -75,4 +75,6 @@ def get_percentage_female_characters(characters=characters):
        Agender and Genderfluid Characters.
        Return the result rounded to 2 digits
     """
-    pass
+    genders = Counter([c.sex.split(' ')[0] for c in characters if c.sex])
+    sum_all_genders = sum([x[1] for x in genders.items()])
+    return round(100 * genders['Female'] / sum_all_genders, 2)
