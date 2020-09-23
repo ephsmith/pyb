@@ -6,7 +6,7 @@ import requests
 
 MARVEL_CSV = 'https://raw.githubusercontent.com/pybites/marvel_challenge/master/marvel-wikia-data.csv'  # noqa E501
 
-Character = namedtuple('Character', 'pid name sid align sex appearances year')
+Character = namedtuple('Character', 'pid name sid align sex first_appearance appearances year')
 
 
 # csv parsing code provided so this Bite can focus on the parsing
@@ -29,6 +29,7 @@ def load_data():
                         sid=row['ID'],
                         align=row['ALIGN'],
                         sex=row['SEX'],
+                        first_appearance=row['FIRST APPEARANCE'],
                         appearances=row['APPEARANCES'],
                         year=row['Year'])
 
@@ -48,13 +49,22 @@ def most_popular_characters(characters=characters, top=5):
     return [char.name for char in top_lst]
 
 
+def _year_app(mon_yr):
+    """ return the year based on the MON-YY string from FIRST APPEARANCE field"""
+    year = int(mon_yr.split('-')[-1])
+    return str(1900 + year) if year > 20 else str(2000 + year)
+
+
 def max_and_min_years_new_characters(characters=characters):
     """Get the year with most and least new characters introduced respectively,
        use either the 'FIRST APPEARANCE' or 'Year' column in the csv
        characters, or the 'year' attribute of the namedtuple, return a tuple
        of (max_year, min_year)
     """
-    pass
+    first_app = Counter([_year_app(c.first_appearance) for c in characters
+                         if c.first_appearance])
+    mc = first_app.most_common()
+    return mc[0][0], mc[-1][0]
 
 
 def get_percentage_female_characters(characters=characters):
