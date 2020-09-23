@@ -42,7 +42,10 @@ def most_popular_characters(characters=characters, top=5):
     """Get the most popular character by number of appearances,
        return top n characters (default 5)
     """
-    pass
+    top_lst = sorted(characters,
+                     key=lambda x: int(x.appearances) if x.appearances else 0,
+                     reverse=True)[:top]
+    return [char.name for char in top_lst]
 
 
 def max_and_min_years_new_characters(characters=characters):
