@@ -1,6 +1,8 @@
 import os
 from pathlib import Path
 from urllib.request import urlretrieve
+from collections import defaultdict
+import xml.etree.ElementTree as ET
 
 # import the countries xml file
 tmp = Path(os.getenv("TMP", "/tmp"))
@@ -21,4 +23,11 @@ def get_income_distribution(xml=countries):
       - keys = incomes (wb:incomeLevel)
       - values = list of country names (wb:name)
     """
-    pass
+    dist = defaultdict(list)
+    tree = ET.parse(countries)
+    root = tree.getroot()
+
+    for child in root:
+        dist[child[4].text].append(child[1].text)
+
+    return dist
