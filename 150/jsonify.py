@@ -1,5 +1,6 @@
+import sys
 import json
-from cvs import DictReader
+from csv import DictReader
 
 members = """
 id,first_name,last_name,email
@@ -17,6 +18,8 @@ id,first_name,last_name,email
 
 
 def convert_to_json(members=members):
-    members = members.replace('|', ',').replace(';', ',')
-    members_dict = DictReader(members.splitlines())
+    members = members.replace('|', ',').replace(';', ',').splitlines()
+    members.pop(0)
+    print(f'{members=}', file=sys.stderr, flush=True)
+    members_dict = list(DictReader(members))
     return json.dumps(members_dict)
