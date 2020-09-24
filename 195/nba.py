@@ -72,7 +72,8 @@ def number_of_players_from_duke():
 def avg_years_active_players_stanford():
     """Return the average years that players from "Stanford University
        are active ("active" column)"""
-    pass
+    active = tuple(cur.execute('SELECT CAST(active as numeric) from players where college="Stanford University"'))
+    return round(sum([a[0] for a in active]) / len(active), 2)
 
 
 def year_with_most_drafts():
