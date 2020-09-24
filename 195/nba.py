@@ -58,25 +58,33 @@ if DB.stat().st_size == 0:
 def player_with_max_points_per_game():
     """The player with highest average points per game (don't forget to CAST to
        numeric in your SQL query)"""
-    return list(cur.execute('''SELECT name from players
-                   where CAST(avg_points as numeric) =
-                   (SELECT max(CAST(avg_points as numeric))
-                   as max_points from players)'''))[0][0]
+    return list(cur.execute('''SELECT name
+                               from players
+                               where CAST(avg_points as numeric) =
+                               (SELECT max(CAST(avg_points as numeric))
+                               as max_points from players)'''))[0][0]
 
 
 def number_of_players_from_duke():
     """Return the number of players with college == Duke University"""
-    return len(tuple(cur.execute('SELECT name from players where college="Duke University"')))
+    return len(tuple(cur.execute('''SELECT name
+                                  from players
+                                  where college="Duke University"''')))
 
 
 def avg_years_active_players_stanford():
     """Return the average years that players from "Stanford University
        are active ("active" column)"""
-    average = tuple(cur.execute('SELECT AVG(CAST(active as numeric)) from players where college="Stanford University"'))[0][0]
+    average = tuple(cur.execute('''SELECT AVG(CAST(active as numeric))
+                                 from players
+                                 where college="Stanford University"'''))[0][0]
     return round(average, 2)
 
 
 def year_with_most_drafts():
     """Return the year with the most drafts, in SQL you can use GROUP BY"""
-    drafts = tuple(cur.execute('SELECT CAST(year as numeric), COUNT(year) from players GROUP BY year ORDER BY COUNT(year)'))
+    drafts = tuple(cur.execute('''SELECT CAST(year as numeric), COUNT(year)
+                                from players
+                                GROUP BY year
+                                ORDER BY COUNT(year)'''))
     return drafts[-1][0]
