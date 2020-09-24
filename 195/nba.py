@@ -66,7 +66,7 @@ def player_with_max_points_per_game():
 
 def number_of_players_from_duke():
     """Return the number of players with college == Duke University"""
-    pass
+    return len(tuple(cur.execute('SELECT name from players where college="Duke University"')))
 
 
 def avg_years_active_players_stanford():
