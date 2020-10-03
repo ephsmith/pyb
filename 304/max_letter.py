@@ -16,11 +16,22 @@ def max_letter_word(text: str) -> Tuple[str, str, int]:
     >>> max_letter_word('$5000 !!')
     ('', '', 0)
     """
-    words = list(map(lambda x: re.sub(PAT, '', x),
-                     map(str.casefold, text.split(' '))))
-    counts = [(word, Counter([c for c in word if c.isalpha()]))
-              for word in words]
-    result = max(counts, key=lambda x: x[1].most_common(1)[0][1])
-    letter, count = result[1].most_common(1)[0]
+    if not isinstance(text, str):
+        raise ValueError('bad input')
 
-    return result[0], letter, count
+    words = list(map(lambda x: re.sub(PAT, '', x), text.split(' ')))
+    counts = []
+    for word in words:
+        folded = word.casefold()
+        count = Counter([c for c in folded if c.isalpha()])
+        if count.most_common(1):
+            counts.append((word, count))
+
+    if counts:
+        result = max(counts, key=lambda x: x[1].most_common(1)[0][1])
+
+        if result[1].most_common():
+            letter, count = result[1].most_common(1)[0]
+            return result[0], letter, count
+    else:
+        return '', '', 0
