@@ -2,7 +2,8 @@ from typing import Tuple
 from collections import Counter
 import re
 
-PAT = r'^\W+|\W$'  # leading or trailing non-word characters
+PAT = r'^\W+|\W+$|^_+|_+$'  # leading or trailing non-word characters
+
 
 
 def max_letter_word(text: str) -> Tuple[str, str, int]:
@@ -19,7 +20,8 @@ def max_letter_word(text: str) -> Tuple[str, str, int]:
     if not isinstance(text, str):
         raise ValueError('bad input')
 
-    words = list(map(lambda x: re.sub(PAT, '', x), text.split(' ')))
+    words = list(map(lambda x: re.sub(PAT, '', x.replace('_', '')),
+                     text.split(' ')))
     counts = []
     for word in words:
         folded = word.casefold()
